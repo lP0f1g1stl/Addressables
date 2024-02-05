@@ -1,32 +1,48 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
-public class PlayerSummoner : MonoBehaviour
+public class PlayerSummoner : MonoBehaviour, IConfigUser
 {
+    [SerializeField] private string label;
+    [Space]
     [SerializeField] private Player prefab;
+    
+    private List<Player> players = new List<Player>();
+    private List<PlayerConfig> configs = new List<PlayerConfig>();
 
-    [SerializeField] private List<Player> players;
+    private IConfigManager manager;
 
+    public void Init(IConfigManager manager)
+    {
+        this.manager = manager;
+    }
     private void Start()
     {
-        if(ConfigManager.instance != null) ConfigManager.instance.OnLoadDone += FindPlayers;
+        FindPlayers();
+        InstallConfig();
     }
-    private void OnDisable()
-    {
-        if (ConfigManager.instance != null) ConfigManager.instance.OnLoadDone -= FindPlayers;
-    }
-    private void FindPlayers(int queueIndex)
-    {
-        if (queueIndex == 0)
-        {
-            players.AddRange(FindObjectsOfType<Player>());
-            if (players.Count != 0)
-            {
-                for (int i = 0; i < players.Count; i++)
-                {
-                    players[i].StartingSpeed = ConfigManager.instance.PlayerConfigs.configs[Random.Range(0, ConfigManager.instance.PlayerConfigs.configs.Count)].StartingSpeed;
 
-                }
+    private async void InstallConfig() 
+    {
+        Task<List<PlayerConfig>> task = manager.GetConfig(configs, label);
+        await task;
+        configs = task.Result;
+        SetData();
+    }
+    private void FindPlayers()
+    {
+        players.AddRange(FindObjectsOfType<Player>(true));
+    }
+
+    private void SetData()
+    {
+        if (players.Count != 0)
+        {
+            for (int i = 0; i < players.Count; i++)
+            {
+                players[i].StartingSpeed = configs[Random.Range(0, configs.Count)].StartingSpeed;
+
             }
         }
     }
@@ -36,8 +52,8 @@ public class PlayerSummoner : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.X))
         {
             Player player = Instantiate(prefab);
+            player.StartingSpeed = configs[Random.Range(0, configs.Count)].StartingSpeed;
             players.Add(player);
-            if (ConfigManager.instance != null) player.StartingSpeed = ConfigManager.instance.PlayerConfigs.configs[Random.Range(0, ConfigManager.instance.PlayerConfigs.configs.Count)].StartingSpeed;
         }
     }
 }
