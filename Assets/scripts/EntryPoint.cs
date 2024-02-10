@@ -7,7 +7,8 @@ public class EntryPoint : MonoBehaviour
     void Awake()
     {
         GameObject[] roots = SceneManager.GetActiveScene().GetRootGameObjects();
-        new Injector(FindConfigUsers(roots), new ConfigManager());
+        Injector injector = new Injector(FindConfigUsers(roots), new ConfigManager());
+        injector.PerformInject();
     }
 
     private List<IConfigUser> FindConfigUsers(GameObject[] roots)
