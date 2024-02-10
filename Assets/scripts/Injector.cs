@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class Injector : MonoBehaviour
 {
     private List<IConfigUser> configUsers = new List<IConfigUser>();
-    private IConfigManager configManager;
+    private List<IConfigManager> configManager = new List<IConfigManager>();
     void Awake()
     {
         FindObjects();
@@ -18,7 +18,7 @@ public class Injector : MonoBehaviour
         foreach (GameObject root in roots) 
         {
             configUsers.AddRange(root.GetComponentsInChildren<IConfigUser>(true));
-            configManager = root.GetComponentInChildren<IConfigManager>(true);
+            configManager.AddRange(root.GetComponentsInChildren<IConfigManager>(true));
         }
     }
 
@@ -26,7 +26,7 @@ public class Injector : MonoBehaviour
     {
         foreach(IConfigUser configUser in configUsers) 
         {
-            configUser.Init(configManager);
+            configUser.Init(configManager[0]);
         }
     }
 }
