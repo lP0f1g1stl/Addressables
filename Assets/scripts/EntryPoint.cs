@@ -4,11 +4,10 @@ using System.Collections.Generic;
 
 public class EntryPoint : MonoBehaviour
 {
-    private Injector injector;
     void Awake()
     {
         GameObject[] roots = SceneManager.GetActiveScene().GetRootGameObjects();
-        injector = new Injector(FindConfigUsers(roots), new ConfigManager());
+        new Injector(FindConfigUsers(roots), new ConfigManager());
     }
 
     private List<IConfigUser> FindConfigUsers(GameObject[] roots)
