@@ -7,9 +7,9 @@ using System.Collections.Generic;
 public class ConfigManager : MonoBehaviour, IConfigManager
 {
 
-    public async Task<List<TConfigType>> GetConfig<TConfigType>(List<TConfigType> configs, string label)
+    public async Task GetConfig<TConfigType>(List<TConfigType> configs, ConfigType configType)
     {
-        AsyncOperationHandle<IList<TConfigType>> groupLoadHandle = Addressables.LoadAssetsAsync<TConfigType>(label, null);
+        AsyncOperationHandle<IList<TConfigType>> groupLoadHandle = Addressables.LoadAssetsAsync<TConfigType>(configType.ToString(), null);
         await groupLoadHandle.Task;
         if (groupLoadHandle.Status == AsyncOperationStatus.Succeeded)
         {
@@ -20,6 +20,5 @@ public class ConfigManager : MonoBehaviour, IConfigManager
             }
         }
         Addressables.Release(groupLoadHandle);
-        return configs;
     }
 }

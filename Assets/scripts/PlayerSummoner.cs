@@ -1,10 +1,10 @@
 using UnityEngine;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 public class PlayerSummoner : MonoBehaviour, IConfigUser
 {
-    [SerializeField] private string label;
+    [SerializeField] private ConfigType configType;
     [Space]
     [SerializeField] private Player prefab;
     
@@ -16,18 +16,14 @@ public class PlayerSummoner : MonoBehaviour, IConfigUser
     public void Init(IConfigManager manager)
     {
         this.manager = manager;
-    }
-    private void Start()
-    {
+
         FindPlayers();
         InstallConfig();
     }
-
-    private async void InstallConfig() 
+    private async Task InstallConfig()
     {
-        Task<List<PlayerConfig>> task = manager.GetConfig(configs, label);
+        Task task = manager.GetConfig(configs, configType);
         await task;
-        configs = task.Result;
         SetData();
     }
     private void FindPlayers()
@@ -46,7 +42,6 @@ public class PlayerSummoner : MonoBehaviour, IConfigUser
             }
         }
     }
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.X))
