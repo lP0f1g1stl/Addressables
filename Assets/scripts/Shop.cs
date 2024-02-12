@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class Shop : MonoBehaviour
+public class Shop : MonoBehaviour, IConfigUser
 {
     [SerializeField] private ConfigType configType;
 

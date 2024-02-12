@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Zenject;
 
-public class PlayerSummoner : MonoBehaviour
+public class PlayerSummoner : MonoBehaviour, IConfigUser
 {
     [SerializeField] private ConfigType configType;
     [Space]
