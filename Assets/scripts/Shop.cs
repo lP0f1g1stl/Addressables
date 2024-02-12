@@ -1,8 +1,9 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
-public class Shop : MonoBehaviour, IConfigUser
+public class Shop : MonoBehaviour
 {
     [SerializeField] private ConfigType configType;
 
@@ -11,7 +12,8 @@ public class Shop : MonoBehaviour, IConfigUser
 
     private IConfigManager manager;
 
-    public void Init(IConfigManager manager)
+    [Inject]
+    public void Construct(IConfigManager manager)
     {
         this.manager = manager;
 

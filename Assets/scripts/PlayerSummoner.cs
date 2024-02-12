@@ -1,8 +1,9 @@
 using UnityEngine;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Zenject;
 
-public class PlayerSummoner : MonoBehaviour, IConfigUser
+public class PlayerSummoner : MonoBehaviour
 {
     [SerializeField] private ConfigType configType;
     [Space]
@@ -13,7 +14,8 @@ public class PlayerSummoner : MonoBehaviour, IConfigUser
 
     private IConfigManager manager;
 
-    public void Init(IConfigManager manager)
+    [Inject]
+    public void Construct(IConfigManager manager)
     {
         this.manager = manager;
 
