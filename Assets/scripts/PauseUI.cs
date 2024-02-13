@@ -1,7 +1,7 @@
 using Zenject;
 using UnityEngine;
 
-public class Pause : MonoBehaviour
+public class PauseUI : MonoBehaviour
 {
     private IInputHandler inputHandler;
 
