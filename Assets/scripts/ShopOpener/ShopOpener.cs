@@ -1,14 +1,31 @@
 using UnityEngine;
+using Zenject;
 
 public class ShopOpener : MonoBehaviour
 {
     [SerializeField] private GameObject shop;
 
-    private void Update()
+    private IInputHandler inputHandler;
+
+    [Inject]
+    public void Construct(IInputHandler inputHandler) 
     {
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            shop.SetActive(!shop.activeSelf);
-        }
+        this.inputHandler = inputHandler;
+
+        AddListener();
+    }
+
+    private void AddListener() 
+    {
+        inputHandler.OnShopBtnClick += OpenCloseShop;
+    }
+    private void OnDisable()
+    {
+        inputHandler.OnShopBtnClick -= OpenCloseShop;
+    }
+
+    private void OpenCloseShop()
+    {
+        shop.SetActive(!shop.activeSelf);
     }
 }

@@ -13,15 +13,29 @@ public class PlayerSummoner : MonoBehaviour, IConfigUser
     private List<PlayerConfig> configs = new List<PlayerConfig>();
 
     private IConfigManager manager;
+    private IInputHandler inputHandler;
 
     [Inject]
-    public void Construct(IConfigManager manager)
+    public void Construct(IConfigManager manager, IInputHandler inputHandler)
     {
         this.manager = manager;
+        this.inputHandler = inputHandler;
 
+        AddListener();
         FindPlayers();
         InstallConfig();
     }
+
+    private void AddListener() 
+    {
+        inputHandler.OnSpawnPlayerBtnClick += SpawnPlayer;
+    }
+
+    private void OnDisable()
+    {
+        inputHandler.OnSpawnPlayerBtnClick -= SpawnPlayer;
+    }
+
     private async Task InstallConfig()
     {
         Task task = manager.GetConfig(configs, configType);
@@ -39,18 +53,15 @@ public class PlayerSummoner : MonoBehaviour, IConfigUser
         {
             for (int i = 0; i < players.Count; i++)
             {
-                players[i].StartingSpeed = configs[Random.Range(0, configs.Count)].StartingSpeed;
+                players[i].PlayerConfig = configs[Random.Range(0, configs.Count)];
 
             }
         }
     }
-    private void Update()
+    private void SpawnPlayer()
     {
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            Player player = Instantiate(prefab);
-            player.StartingSpeed = configs[Random.Range(0, configs.Count)].StartingSpeed;
-            players.Add(player);
-        }
+        Player player = Instantiate(prefab);
+        player.PlayerConfig = configs[Random.Range(0, configs.Count)];
+        players.Add(player);
     }
 }

@@ -2,12 +2,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private float startingSpeed;
-
-    public float StartingSpeed { set => startingSpeed = value;}
+    public PlayerConfig PlayerConfig { get; set; }
 
     private void Update()
     {
-        transform.position += transform.forward * startingSpeed * Time.deltaTime;
+        transform.position += transform.forward * PlayerConfig.StartingSpeed * Time.deltaTime;
     }
 }

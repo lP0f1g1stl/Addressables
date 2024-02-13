@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 public interface IConfigUser
 {
-    public void Construct(IConfigManager manager);
+
 }
 public interface IConfigManager 
 {
