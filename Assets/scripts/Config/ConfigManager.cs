@@ -5,7 +5,22 @@ using System.Collections.Generic;
 
 public class ConfigManager : IConfigManager
 {
-    public async Task GetConfig<TConfigType>(List<TConfigType> configs, ConfigType configType)
+    private Dictionary<ConfigType, List<IConfig>> configs;
+
+    public ConfigManager() 
+    {
+        configs = new Dictionary<ConfigType, List<IConfig>>();
+
+        configs[ConfigType.Player] = new List<IConfig>();
+        configs[ConfigType.InAppView] = new List<IConfig>();
+    }
+
+    public async Task LoadConfigs() 
+    {
+        await LoadConfig(configs[ConfigType.Player], ConfigType.Player);
+        await LoadConfig(configs[ConfigType.InAppView], ConfigType.InAppView);
+    }
+    private async Task LoadConfig<TConfigType>(List<TConfigType> configs, ConfigType configType)
     {
         AsyncOperationHandle<IList<TConfigType>> groupLoadHandle = Addressables.LoadAssetsAsync<TConfigType>(configType.ToString(), null);
         await groupLoadHandle.Task;
@@ -18,5 +33,10 @@ public class ConfigManager : IConfigManager
             }
         }
         Addressables.Release(groupLoadHandle);
+    }
+
+    public List<IConfig> GetConfig(ConfigType configType) 
+    {
+        return configs[configType];
     }
 }

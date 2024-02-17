@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PlayerConfig", menuName = "ScriptableObjects/PlayerConfig", order = 2)]
-public class PlayerConfig : ScriptableObject
+public class PlayerConfig : ScriptableObject, IConfig
 {
     [SerializeField, Range(0f, 100f)] private float startingHP;
     [SerializeField, Range(0f, 10f)] private float startingSpeed;

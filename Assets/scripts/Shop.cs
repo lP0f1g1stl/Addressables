@@ -20,10 +20,10 @@ public class Shop : MonoBehaviour, IConfigUser
         FindItems();
         InstallConfig();
     }
-    private async Task InstallConfig()
+    private void InstallConfig()
     {
-        Task task = manager.GetConfig(configs, configType);
-        await task;
+        Debug.Log(manager.GetConfig(ConfigType.InAppView).Count);
+        configs = manager.GetConfig(ConfigType.InAppView).ConvertAll(x => (InAppPackageConfig)x);
         SetData();
     }
     private void FindItems()

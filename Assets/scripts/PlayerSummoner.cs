@@ -36,10 +36,9 @@ public class PlayerSummoner : MonoBehaviour, IConfigUser
         inputHandler.OnSpawnPlayerBtnClick -= SpawnPlayer;
     }
 
-    private async Task InstallConfig()
+    private void InstallConfig()
     {
-        Task task = manager.GetConfig(configs, configType);
-        await task;
+        configs = manager.GetConfig(ConfigType.Player).ConvertAll(x => (PlayerConfig)x);
         SetData();
     }
     private void FindPlayers()

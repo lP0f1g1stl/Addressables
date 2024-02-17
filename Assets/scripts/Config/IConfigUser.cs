@@ -6,5 +6,6 @@ public interface IConfigUser
 }
 public interface IConfigManager 
 {
-    public Task GetConfig<TConfigType>(List<TConfigType> configs, ConfigType configType);
+    public Task LoadConfigs();
+    public List<IConfig> GetConfig(ConfigType configType);
 }
