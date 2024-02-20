@@ -4,14 +4,18 @@ public class PauseState : IState
     private StateMachine stateMachine;
 
     private IInputHandler inputHandler;
-    public PauseState(StateMachine stateMachine, IInputHandler inputHandler)
+    private PauseManager pauseManager;
+    public PauseState(StateMachine stateMachine, IInputHandler inputHandler, PauseManager pauseManager)
     {
         this.stateMachine = stateMachine;
         this.inputHandler = inputHandler;
+        this.pauseManager = pauseManager;
     }
     public void Enter()
     {
         inputHandler.IsPaused = true;
+        pauseManager.FindAllPO();
+        pauseManager.SetPauseState(true);
         inputHandler.OnEscBtnClick += stateMachine.EnterIn<PlayerLoopState>;
     }
 

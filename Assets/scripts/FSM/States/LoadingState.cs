@@ -4,12 +4,14 @@ public class LoadingState : IState
 
     private LoadingHandler loadingHandler;
     private IConfigManager configManager;
+    private PauseManager pauseManager;
 
-    public LoadingState(StateMachine stateMachine, LoadingHandler loadingHandler, IConfigManager configManager)
+    public LoadingState(StateMachine stateMachine, LoadingHandler loadingHandler, IConfigManager configManager, PauseManager pauseManager)
     {
         this.stateMachine = stateMachine;
         this.loadingHandler = loadingHandler;
         this.configManager = configManager;
+        this.pauseManager = pauseManager;
     }
 
     public async void Enter()

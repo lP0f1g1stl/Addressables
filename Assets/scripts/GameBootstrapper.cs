@@ -9,17 +9,19 @@ public class GameBootstrapper : MonoBehaviour
 
     private IInputHandler inputHandler;
     private IConfigManager configManager;
+    private PauseManager pauseManager;
 
     [Inject]
-    public void Construct(IInputHandler inputHandler, IConfigManager configManager)
+    public void Construct(IInputHandler inputHandler, IConfigManager configManager, PauseManager pauseManager)
     {
         this.inputHandler = inputHandler;
         this.configManager = configManager;
+        this.pauseManager = pauseManager;
     }
     private void Awake()
     {
-        stateMachine = new StateMachine(loadingHandler, inputHandler, configManager);
-        DontDestroyOnLoad(this);
+        stateMachine = new StateMachine(loadingHandler, inputHandler, configManager, pauseManager);
+        DontDestroyOnLoad(gameObject);
     }
     private void Start()
     {
