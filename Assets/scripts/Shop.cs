@@ -22,7 +22,6 @@ public class Shop : MonoBehaviour, IConfigUser
     }
     private void InstallConfig()
     {
-        Debug.Log(manager.GetConfig(ConfigType.InAppView).Count);
         configs = manager.GetConfig(ConfigType.InAppView).ConvertAll(x => (InAppPackageConfig)x);
         SetData();
     }

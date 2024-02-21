@@ -14,6 +14,7 @@ public class PauseState : IState
     public void Enter()
     {
         inputHandler.IsPaused = true;
+        pauseManager.ClearPOList();
         pauseManager.FindAllPO();
         pauseManager.SetPauseState(true);
         inputHandler.OnEscBtnClick += stateMachine.EnterIn<PlayerLoopState>;
