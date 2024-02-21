@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -9,6 +8,7 @@ public class PauseManager : MonoBehaviour
 
     public void FindAllPO() 
     {
+        pausableObjects.Clear();
         pausableObjects.AddRange(FindObjectsOfType<MonoBehaviour>().OfType<IPausable>());
     }
 
