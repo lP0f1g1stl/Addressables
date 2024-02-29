@@ -52,7 +52,7 @@ public class PlayerSummoner : MonoBehaviour, IConfigUser
         {
             for (int i = 0; i < players.Count; i++)
             {
-                players[i].PlayerSpeed = configs[Random.Range(0, configs.Count)].StartingSpeed;
+                players[i].PlayerConfig = configs[Random.Range(0, configs.Count)];
 
             }
         }
@@ -60,7 +60,7 @@ public class PlayerSummoner : MonoBehaviour, IConfigUser
     private void SpawnPlayer()
     {
         Player player = Instantiate(prefab);
-        player.PlayerSpeed = configs[Random.Range(0, configs.Count)].StartingSpeed;
+        player.PlayerConfig = configs[Random.Range(0, configs.Count)];
         players.Add(player);
     }
 }

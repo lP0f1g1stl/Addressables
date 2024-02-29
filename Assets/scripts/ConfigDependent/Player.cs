@@ -2,14 +2,15 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, IPausable
 {
-    public float PlayerSpeed { get; set; }
+
+    public PlayerConfig PlayerConfig { get; set; }
     public bool IsPaused { get; set; }
 
     private void Update()
     {
         if (!IsPaused)
         {
-            transform.position += transform.forward * PlayerSpeed * Time.deltaTime;
+            transform.position += transform.forward * PlayerConfig.StartingSpeed * Time.deltaTime;
         }
     }
 }
