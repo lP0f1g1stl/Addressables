@@ -1,6 +1,6 @@
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 
 public class ConfigManager : IConfigManager
@@ -15,12 +15,12 @@ public class ConfigManager : IConfigManager
         configs[ConfigType.InAppView] = new List<IConfig>();
     }
 
-    public async Task LoadConfigs() 
+    public async UniTask LoadConfigs() 
     {
         await LoadConfig(configs[ConfigType.Player], ConfigType.Player);
         await LoadConfig(configs[ConfigType.InAppView], ConfigType.InAppView);
     }
-    private async Task LoadConfig<TConfigType>(List<TConfigType> configs, ConfigType configType)
+    private async UniTask LoadConfig<TConfigType>(List<TConfigType> configs, ConfigType configType)
     {
         AsyncOperationHandle<IList<TConfigType>> groupLoadHandle = Addressables.LoadAssetsAsync<TConfigType>(configType.ToString(), null);
         await groupLoadHandle.Task;

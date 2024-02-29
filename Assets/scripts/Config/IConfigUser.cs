@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 public interface IConfigUser
 {
 
 }
 public interface IConfigManager 
 {
-    public Task LoadConfigs();
+    public UniTask LoadConfigs();
     public List<IConfig> GetConfig(ConfigType configType);
 }
