@@ -2,10 +2,13 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
+using System;
 
 public class ConfigManager : IConfigManager
 {
     private Dictionary<ConfigType, List<IConfig>> configs;
+
+    public Action<float> OnProgressChange { get; set; }
 
     public ConfigManager() 
     {
@@ -24,6 +27,11 @@ public class ConfigManager : IConfigManager
     {
         AsyncOperationHandle<IList<TConfigType>> groupLoadHandle = Addressables.LoadAssetsAsync<TConfigType>(configType.ToString(), null);
         await groupLoadHandle.Task;
+        while (!groupLoadHandle.IsDone)
+        {
+            OnProgressChange?.Invoke(groupLoadHandle.PercentComplete);
+            await UniTask.Yield();
+        }
         if (groupLoadHandle.Status == AsyncOperationStatus.Succeeded)
         {
             IList<TConfigType> assets = groupLoadHandle.Result;

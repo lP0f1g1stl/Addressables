@@ -7,14 +7,10 @@ public class LoadingHandler: MonoBehaviour
 {
     [SerializeField] private Slider loadingBar;
 
-    public async UniTask LoadAsync(int sceneIndex) 
+    public void ChangeProgress(float value) 
     {
-        AsyncOperation loadingOperation = SceneManager.LoadSceneAsync(sceneIndex);
-        while (!loadingOperation.isDone) 
-        {
-            loadingBar.value = loadingOperation.progress;
-            await UniTask.Yield();
-        }
+        Debug.Log(value);
+        loadingBar.value = value;
     }
 }
 

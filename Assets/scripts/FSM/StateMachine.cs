@@ -6,11 +6,11 @@ public class StateMachine
     private Dictionary<Type, IState> states;
     private IState currentState;
 
-    public StateMachine(LoadingHandler loadingHandler, IInputHandler inputHandler, IConfigManager configManager, PauseManager pauseManager)
+    public StateMachine(LoadingHandler loadingHandler, IInputHandler inputHandler, IConfigManager configManager, PauseManager pauseManager, SceneLoadingManager sceneLoader)
     {
         states = new Dictionary<Type, IState>()
         {
-            [typeof(LoadingState)] = new LoadingState(this, loadingHandler, configManager, pauseManager),
+            [typeof(LoadingState)] = new LoadingState(this, loadingHandler, configManager, sceneLoader),
             [typeof(PlayerLoopState)] = new PlayerLoopState(this, inputHandler, pauseManager),
             [typeof(PauseState)] = new PauseState(this, inputHandler, pauseManager)
         };

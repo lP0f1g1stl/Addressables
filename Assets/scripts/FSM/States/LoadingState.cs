@@ -4,20 +4,28 @@ public class LoadingState : IState
 
     private LoadingHandler loadingHandler;
     private IConfigManager configManager;
-    private PauseManager pauseManager;
+    private SceneLoadingManager sceneLoader;
 
-    public LoadingState(StateMachine stateMachine, LoadingHandler loadingHandler, IConfigManager configManager, PauseManager pauseManager)
+    public LoadingState(StateMachine stateMachine, LoadingHandler loadingHandler, IConfigManager configManager, SceneLoadingManager sceneLoader)
     {
         this.stateMachine = stateMachine;
         this.loadingHandler = loadingHandler;
         this.configManager = configManager;
-        this.pauseManager = pauseManager;
+        this.sceneLoader = sceneLoader;
+
+        AddListeners();
+    }
+    private void AddListeners() 
+    {
+        configManager.OnProgressChange += loadingHandler.ChangeProgress;
+        sceneLoader.OnProgressChange += loadingHandler.ChangeProgress;
+
     }
 
     public async void Enter()
     {
         await configManager.LoadConfigs();
-        await loadingHandler.LoadAsync((int)SceneType.Gameplay);
+        await sceneLoader.LoadAsync((int)SceneType.Gameplay);
         stateMachine.EnterIn<PlayerLoopState>();
     }
 
