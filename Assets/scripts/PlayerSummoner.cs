@@ -14,12 +14,14 @@ public class PlayerSummoner : MonoBehaviour, IConfigUser
 
     private IConfigManager manager;
     private IInputHandler inputHandler;
+    private PauseManager pauseManager;
 
     [Inject]
-    public void Construct(IConfigManager manager, IInputHandler inputHandler)
+    public void Construct(IConfigManager manager, IInputHandler inputHandler, PauseManager pauseManager)
     {
         this.manager = manager;
         this.inputHandler = inputHandler;
+        this.pauseManager = pauseManager;
 
         AddListener();
         FindPlayers();
@@ -44,6 +46,11 @@ public class PlayerSummoner : MonoBehaviour, IConfigUser
     private void FindPlayers()
     {
         players.AddRange(FindObjectsOfType<Player>(true));
+
+        foreach(Player player in players) 
+        {
+            pauseManager.AddPausable(player);
+        }
     }
 
     private void SetData()
@@ -62,5 +69,6 @@ public class PlayerSummoner : MonoBehaviour, IConfigUser
         Player player = Instantiate(prefab);
         player.PlayerConfig = configs[Random.Range(0, configs.Count)];
         players.Add(player);
+        pauseManager.AddPausable(player);
     }
 }
